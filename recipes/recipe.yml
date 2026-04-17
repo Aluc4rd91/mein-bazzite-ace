@@ -42,9 +42,12 @@ modules:
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
 
-  - type: dnf
-    repositories:
-      - https://fedorainfracloud.org
+  - type: yum-repo
+    filename: jetm-mediatek-mt7927.repo
+    baseurl: https://fedorainfracloud.org
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://fedorainfracloud.org
       
   - type: akmods
     install:
