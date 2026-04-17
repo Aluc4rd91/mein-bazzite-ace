@@ -42,12 +42,14 @@ modules:
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
 
+  - type: dnf
+    repositories:
+      - https://fedorainfracloud.org
+      
   - type: akmods
     install:
       - mediatek-mt7927-dkms
-    repositories:
-      - https://fedorainfracloud.org
-
+      
   - type: script
     scripts:
       - firmware-fix.sh
