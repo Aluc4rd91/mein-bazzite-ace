@@ -42,4 +42,14 @@ modules:
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
 
+  - type: akmods
+    install:
+      - mediatek-mt7927-dkms
+    repositories:
+      - https://fedorainfracloud.org
+
+  - type: script
+    scripts:
+      - firmware-fix.sh
+
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
