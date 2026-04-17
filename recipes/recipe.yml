@@ -44,17 +44,7 @@ modules:
 
   - type: containerfile
     snippets:
-      - |
-        RUN echo '[copr:copr.fedorainfracloud.org:jetm:mediatek-mt7927-dkms]
-        name=Copr repo for mediatek-mt7927-dkms owned by jetm
-        baseurl=https://copr.fedorainfracloud.org
-        type=rpm-md
-        skip_if_unavailable=True
-        gpgcheck=1
-        gpgkey=https://copr.fedorainfracloud.org
-        repo_gpgcheck=0
-        enabled=1
-        enabled_metadata=1' > /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo
+      - RUN printf "[copr:copr.fedorainfracloud.org:jetm:mediatek-mt7927-dkms]\nname=Copr repo for mediatek-mt7927-dkms owned by jetm\nbaseurl=https://copr.fedorainfracloud.org\$basearch/\ntype=rpm-md\nskip_if_unavailable=True\ngpgcheck=1\ngpgkey=https://copr.fedorainfracloud.org\nrepo_gpgcheck=0\nenabled=1\nenabled_metadata=1\n" > /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo
       - RUN rpm-ostree install mediatek-mt7927-dkms
       
   - type: akmods
