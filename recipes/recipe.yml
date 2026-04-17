@@ -47,11 +47,11 @@ modules:
       - |
         RUN echo '[copr:copr.fedorainfracloud.org:jetm:mediatek-mt7927-dkms]
         name=Copr repo for mediatek-mt7927-dkms owned by jetm
-        baseurl=https://fedorainfracloud.org
+        baseurl=https://copr.fedorainfracloud.org
         type=rpm-md
         skip_if_unavailable=True
         gpgcheck=1
-        gpgkey=https://fedorainfracloud.org
+        gpgkey=https://copr.fedorainfracloud.org
         repo_gpgcheck=0
         enabled=1
         enabled_metadata=1' > /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo
