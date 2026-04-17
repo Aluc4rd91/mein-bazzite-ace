@@ -44,10 +44,11 @@ modules:
 
   - type: containerfile
     snippets:
+      # 1. Firmware kopieren (hat ja schon geklappt)
       - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
-      
-  - type: akmods
-    install:
-      - mediatek-mt7927-dkms
+      # 2. Treiber aus deinem Repo kopieren und installieren
+      - COPY packages/*.rpm /tmp/
+      - RUN rpm-ostree install /tmp/mediatek-mt7927-dkms-2.11-1.fc41.noarch.rpm
+      - RUN rm /tmp/*.rpm
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
