@@ -44,13 +44,7 @@ modules:
 
   - type: containerfile
     snippets:
-      # 1. Wir laden den Treiber und das Firmware-Paket direkt als Datei herunter
-      - RUN curl -Lo /tmp/driver.rpm https://copr.fedorainfracloud.org
-      - RUN curl -Lo /tmp/firmware.rpm https://copr.fedorainfracloud.org
-      # 2. Wir installieren die lokalen Dateien direkt, ohne ein Online-Repo zu fragen
-      - RUN rpm-ostree install /tmp/driver.rpm /tmp/firmware.rpm
-      # 3. Aufräumen
-      - RUN rm /tmp/driver.rpm /tmp/firmware.rpm
+      - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
       
   - type: akmods
     install:
