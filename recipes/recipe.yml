@@ -45,13 +45,10 @@ modules:
   - type: containerfile
     snippets:
       - RUN curl -Lo /etc/yum.repos.d/jetm-mediatek-mt7927.repo https://fedorainfracloud.org
+      - RUN rpm-ostree install mediatek-mt7927-dkms
       
   - type: akmods
     install:
       - mediatek-mt7927-dkms
-      
-  - type: script
-    scripts:
-      - firmware-fix.sh
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
