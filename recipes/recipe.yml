@@ -44,11 +44,11 @@ modules:
 
   - type: containerfile
     snippets:
-      # 1. Firmware kopieren (hast du ja bereits extrahiert)
+      # 1. Deine Firmware kopieren (das hat ja bereits super geklappt!)
       - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
-      # 2. Quellcode kopieren und Treiber selbst kompilieren
-      - COPY driver-source/ /tmp/driver/
-      - RUN cd /tmp/driver && make -j$(nproc) && cp mt7927.ko /usr/lib/modules/$(uname -r)/extra/
-      - RUN depmod -a
+      # 2. Den fertigen Treiber als Paket laden und installieren (kein 'make' nötig)
+      - RUN curl -Lo /tmp/driver.rpm https://copr.fedorainfracloud.org
+      - RUN rpm-ostree install /tmp/driver.rpm
+      - RUN rm /tmp/driver.rpm
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
