@@ -44,23 +44,23 @@ modules:
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
 
+modules:
   - type: containerfile
     snippets:
       # 1. Firmware kopieren
       - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
       # 2. Den falschen Treiber blacklisten
       - RUN printf "blacklist mt7925e\ninstall mt7925e /bin/false\n" > /etc/modprobe.d/blacklist-mt7925e.conf
-      # 3. Das Repository erstellen (vereinfacht)
+      # 3. Das Repository mit dem EXAKTEN Pfad erstellen
       - |
         RUN printf "[copr:copr.fedorainfracloud.org:jetm:mediatek-mt7927-dkms]\n\
         name=Copr repo for mediatek-mt7927-dkms owned by jetm\n\
-        baseurl=https://copr.fedorainfracloud.org/\$basearch/\n\
+        baseurl=https://copr.fedorainfracloud.org\n\
         type=rpm-md\n\
         gpgcheck=0\n\
         enabled=1\n\
         sslverify=0\n" > /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo
-      # 4. Globaler SSL-Bypass für die Installation
-      - RUN GIT_SSL_NO_VERIFY=true curl_k=1 rpm-ostree install mediatek-mt7927-dkms
-
+      # 4. Installation mit globalem SSL-Bypass
+      - RUN GIT_SSL_NO_VERIFY=true rpm-ostree install mediatek-mt7927-dkms
       
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
