@@ -50,12 +50,11 @@ modules:
       - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
       # 2. Den falschen Treiber blacklisten
       - RUN printf "blacklist mt7925e\ninstall mt7925e /bin/false\n" > /etc/modprobe.d/blacklist-mt7925e.conf
-      # 3. Das Repository direkt als fertige Datei laden (verhindert Tippfehler)
-      - RUN curl -Lo /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo https://copr.fedorainfracloud.org
-      # 4. SSL-Prüfung in der heruntergeladenen Datei deaktivieren
-      - RUN echo "sslverify=0" >> /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo
-      # 5. Installation mit globalem Bypass
-      - RUN GIT_SSL_NO_VERIFY=true rpm-ostree install mediatek-mt7927-dkms
+      # 3. Die Repo-Datei aus deinem Repository ins Image kopieren
+      - COPY jetm-mediatek.repo /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo
+      # 4. Den Treiber installieren
+      - RUN rpm-ostree install mediatek-mt7927-dkms
+
 
       
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
