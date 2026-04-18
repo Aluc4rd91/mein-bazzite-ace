@@ -48,11 +48,16 @@ modules:
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
 
+modules:
   - type: containerfile
     snippets:
+      # 1. Firmware kopieren
       - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
-      - RUN git clone https://github.com/jetm/mediatek-mt7927-dkms.git /tmp/mt7927
-      - RUN cp -r /tmp/mt7927 /usr/src/mediatek-mt7927-2.11
-      - RUN dkms add -m mediatek-mt7927 -v 2.11
+      # 2. Den falschen Treiber blacklisten (damit dein Image sauber bootet)
+      - RUN printf "blacklist mt7925e\ninstall mt7925e /bin/false\n" > /etc/modprobe.d/blacklist-mt7925e.conf
+      # 3. Repository hinzufügen und Treiber fest installieren
+      - RUN curl -Lo /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo https://fedorainfracloud.org
+      - RUN rpm-ostree install mediatek-mt7927-dkms
+
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
