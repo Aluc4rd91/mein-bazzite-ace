@@ -44,7 +44,6 @@ modules:
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
 
-modules:
   - type: containerfile
     snippets:
       # 1. Firmware kopieren
