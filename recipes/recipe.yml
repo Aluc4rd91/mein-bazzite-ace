@@ -10,14 +10,14 @@ image-version: latest
 modules:
   - type: containerfile
     snippets:
-      # 1. Firmware kopieren
+      # 1. Firmware kopieren (das funktioniert ja bereits)
       - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
       # 2. Den falschen Treiber blacklisten
       - RUN printf "blacklist mt7925e\ninstall mt7925e /bin/false\n" > /etc/modprobe.d/blacklist-mt7925e.conf
-      # 3. Das Repository DIREKT erstellen (ohne Datei-Copy)
-      - RUN printf "[copr-jetm]\nname=jetm-mt7927\nbaseurl=https://fedorainfracloud.org\nenabled=1\ngpgcheck=0\nsslverify=0\n" > /etc/yum.repos.d/jetm.repo
-      # 4. Den Treiber installieren
-      - RUN rpm-ostree install mediatek-mt7927-dkms
+      # 3. Das Paket direkt per URL herunterladen und sofort installieren
+      # (Diese Zeile ist lang, aber stabil, da sie keine Repo-Metadaten braucht)
+      - RUN rpm-ostree install https://copr.fedorainfracloud.org
+
 
   - type: files
     files:
