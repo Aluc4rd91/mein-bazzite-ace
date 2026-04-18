@@ -50,9 +50,12 @@ modules:
 
   - type: containerfile
     snippets:
-      # 1. Deine extrahierte Firmware an den richtigen Ort schieben
+      # 1. Firmware kopieren (die hast du ja schon im Repo)
       - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
-      # 2. Den Treiber-Quellcode in das System-Verzeichnis für Zusatzmodule legen
-      - COPY driver-source/ /usr/src/mediatek-mt7927-dkms-2.11/
+      # 2. Den echten Quellcode von jetm klonen
+      - RUN git clone https://github.com /tmp/mt7927
+      # 3. Den Treiber für deinen aktuellen Kernel registrieren und vorbereiten
+      - RUN cp -r /tmp/mt7927 /usr/src/mediatek-mt7927-2.11
+      - RUN dkms add -m mediatek-mt7927 -v 2.11
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
