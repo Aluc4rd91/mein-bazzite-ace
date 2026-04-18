@@ -8,6 +8,17 @@ image-version: latest
 # module configuration, executed in order
 # you can include multiple instances of the same module
 modules:
+  - type: containerfile
+    snippets:
+      # 1. Firmware kopieren
+      - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
+      # 2. Den falschen Treiber blacklisten
+      - RUN printf "blacklist mt7925e\ninstall mt7925e /bin/false\n" > /etc/modprobe.d/blacklist-mt7925e.conf
+      # 3. Das Repository DIREKT erstellen (ohne Datei-Copy)
+      - RUN printf "[copr-jetm]\nname=jetm-mt7927\nbaseurl=https://fedorainfracloud.org\nenabled=1\ngpgcheck=0\nsslverify=0\n" > /etc/yum.repos.d/jetm.repo
+      # 4. Den Treiber installieren
+      - RUN rpm-ostree install mediatek-mt7927-dkms
+
   - type: files
     files:
       - source: system
@@ -43,18 +54,5 @@ modules:
           - org.mozilla.firefox
           - org.gnome.Loupe
       - scope: user # Also add Flathub user repo, but no user packages
-
-  - type: containerfile
-    snippets:
-      # 1. Firmware kopieren
-      - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
-      # 2. Den falschen Treiber blacklisten
-      - RUN printf "blacklist mt7925e\ninstall mt7925e /bin/false\n" > /etc/modprobe.d/blacklist-mt7925e.conf
-      # 3. Die Repo-Datei aus deinem Repository ins Image kopieren
-      - COPY jetm-mediatek.repo /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo
-      # 4. Den Treiber installieren
-      - RUN rpm-ostree install mediatek-mt7927-dkms
-
-
       
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
