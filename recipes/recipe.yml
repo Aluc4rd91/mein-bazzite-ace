@@ -51,7 +51,7 @@ modules:
       # 2. Den falschen Treiber blacklisten
       - RUN printf "blacklist mt7925e\ninstall mt7925e /bin/false\n" > /etc/modprobe.d/blacklist-mt7925e.conf
       # 3. Repository hinzufügen und Treiber fest installieren
-      - RUN curl -Lo /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo https://fedorainfracloud.org
+      - RUN curl -Lo /etc/yum.repos.d/_copr_jetm-mediatek-mt7927.repo https://copr.fedorainfracloud.org
       - RUN rpm-ostree install mediatek-mt7927-dkms
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
