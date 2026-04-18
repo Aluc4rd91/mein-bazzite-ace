@@ -10,14 +10,14 @@ image-version: latest
 modules:
   - type: containerfile
     snippets:
-      # 1. Firmware kopieren (das funktioniert ja bereits)
+      # 1. Firmware an die richtige Stelle kopieren
       - COPY firmware/* /usr/lib/firmware/mediatek/mt7927/
-      # 2. Den falschen Treiber blacklisten
+      
+      # 2. Den Treiber-Quellcode registrieren (DKMS baut ihn dann auf deinem PC)
+      - COPY driver-source/ /usr/src/mediatek-mt7927-2.11/
+      
+      # 3. Den falschen Treiber ausschalten
       - RUN printf "blacklist mt7925e\ninstall mt7925e /bin/false\n" > /etc/modprobe.d/blacklist-mt7925e.conf
-      # 3. Das Paket direkt per URL herunterladen und sofort installieren
-      # (Diese Zeile ist lang, aber stabil, da sie keine Repo-Metadaten braucht)
-      - RUN rpm-ostree install https://copr.fedorainfracloud.org
-
 
   - type: files
     files:
